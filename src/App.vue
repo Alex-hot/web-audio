@@ -7,5 +7,6 @@
 <style lang="less">
 .container-wrapper {
   padding: 20px;
+  background: #000;
 }
 </style>
