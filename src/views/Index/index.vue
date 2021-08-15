@@ -38,8 +38,8 @@
       </div>
       <div class="show-box">
         <Player v-show="typeIndex === 0" :musicBuffer="musicBuffer" />
-        <ST v-show="typeIndex === 1" />
-        <Magic v-show="typeIndex === 2" />
+        <Magic v-show="typeIndex === 1" :musicBuffer="musicBuffer" />
+        <ST v-if="typeIndex === 2"  :musicBuffer="musicBuffer" />
       </div>
     </div>
   </div>
@@ -58,9 +58,9 @@ export default {
     return {
       musicList: [],
       curIndex: null,
-      typeIndex: 0,
+      typeIndex: 2,
       musicBuffer: null,
-      typeList: ["播放器", "科技", "魔法"],
+      typeList: ["播放器", "声波", "3D"],
     };
   },
   methods: {
