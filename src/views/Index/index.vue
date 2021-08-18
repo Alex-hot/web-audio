@@ -36,10 +36,15 @@
           >{{ type }}</span
         >
       </div>
-      <div class="show-box">
+      <div ref="showBox" class="show-box">
         <Player v-show="typeIndex === 0" :musicBuffer="musicBuffer" />
         <Magic v-show="typeIndex === 1" :musicBuffer="musicBuffer" />
-        <ST v-if="typeIndex === 2"  :musicBuffer="musicBuffer" />
+        <ST
+          v-show="typeIndex === 2"
+          :clientWidth="clientWidth"
+          :clientHeight="clientHeight"
+          :musicBuffer="musicBuffer"
+        />
       </div>
     </div>
   </div>
@@ -58,10 +63,16 @@ export default {
     return {
       musicList: [],
       curIndex: null,
-      typeIndex: 2,
+      typeIndex: 0,
       musicBuffer: null,
-      typeList: ["播放器", "声波", "3D"],
+      typeList: ["音频条", "声波", "BOX"],
+      clientWidth: null,
+      clientHeight: null,
     };
+  },
+  mounted() {
+    this.clientWidth = this.$refs.showBox.clientWidth;
+    this.clientHeight = this.$refs.showBox.clientHeight;
   },
   methods: {
     addMusic() {
@@ -142,7 +153,6 @@ export default {
     height: calc(100vh - 40px);
     flex-shrink: 0;
     background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid green;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -163,12 +173,13 @@ export default {
       margin-top: 20px;
       width: 80%;
       flex: 1;
-      border: 1px solid pink;
+      border: 1px solid #fff;
       padding: 0 10px;
       display: flex;
       flex-direction: column;
       .music-title {
         font-size: 20px;
+        padding: 10px 0;
       }
       .music-list {
         text-decoration: none;
@@ -201,7 +212,7 @@ export default {
       height: 100px;
       width: 100%;
       flex-shrink: 0;
-      border: 1px solid yellow;
+      border: 1px solid #fff;
       align-items: center;
       color: #fff;
       span {
@@ -220,8 +231,8 @@ export default {
     }
     .show-box {
       flex: 1;
+      border: 1px solid #fff;
       margin-top: 20px;
-      border: 1px solid blue;
       width: 100%;
     }
   }

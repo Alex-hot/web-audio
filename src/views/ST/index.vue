@@ -10,6 +10,14 @@ export default {
       type: Object,
       default: () => {},
     },
+    clientWidth: {
+      type: Number,
+      default: 0,
+    },
+    clientHeight: {
+      type: Number,
+      default: 0,
+    },
   },
   watch: {
     musicBuffer: {
@@ -49,24 +57,28 @@ export default {
     // gain为gainNode，音频的声音处理模块
     this.gainnode = AC.createGain();
     this.gainnode.gain.value = 1;
-    this.scene = new Three.Scene();
-    this.initCamera();
-    this.initRenderer();
-    this.initLight();
-    for (var i = 0; i < this.analyser.fftSize; i++) {
-      this.objects.push(
-        this.createBox({
-          w: 0.1,
-          h: 0.1,
-          d: 0.1,
-          c: parseInt(Math.random() * 166138875, 16),
-          x: -100 + Math.random() * 200,
-          y: -100 + Math.random() * 200,
-          z: -100 + Math.random() * 200,
-        })
-      );
-    }
-    this.windowEvents();
+    setTimeout(() => {
+      this.initScene();
+      this.initCamera();
+      this.initRenderer();
+      this.initLight();
+      for (var i = 0; i < this.analyser.fftSize; i++) {
+        this.objects.push(
+          this.createBox({
+            w: 0.1,
+            h: 0.1,
+            d: 0.1,
+            c: parseInt(Math.random() * 166138875, 16),
+            x: -100 + Math.random() * 200,
+            y: -100 + Math.random() * 200,
+            z: -100 + Math.random() * 200,
+          })
+        );
+      }
+      this.startDraw();
+
+      this.windowEvents();
+    });
   },
   methods: {
     startPlay() {
@@ -108,8 +120,7 @@ export default {
         requestAnimationFrame(renderFrame); //方法托管到定时器
         that.analyser.getByteFrequencyData(dataArray);
         that.moveBox(dataArray);
-        that.upDateFps();
-        // that.renderer.render(that.sence,that,camera)
+        that.renderer.render(that.scene, that.camera);
       }
       renderFrame();
     },
@@ -124,21 +135,24 @@ export default {
         this.camera.rotation.y += 0.000001;
       }
     },
-    upDateFps() {},
+    initScene() {
+      this.scene = new Three.Scene();
+      console.log("初始化场景成功");
+    },
 
     //初始化摄像机
     initCamera() {
-      let w = this.$refs.content.clientWidth;
-      let h = this.$refs.content.clientHeight;
+      let w = this.clientWidth;
+      let h = this.clientHeight;
       this.camera = new Three.PerspectiveCamera(90, w / h, 1, 1000);
       // this.camera.position.set(0, 0, 0);
-      this.camera.position.set(200, 300, 200); //设置相机位置
-      this.camera.lookAt(this.scene.position); //设置相机方向(指向的场景对象)
+      this.camera.position.set(0, 0, 0); //设置相机位置
+      console.log("初始化摄像机成功!");
     },
 
     initRenderer() {
-      let w = this.$refs.content.clientWidth;
-      let h = this.$refs.content.clientHeight;
+      let w = this.clientWidth;
+      let h = this.clientHeight;
       try {
         this.renderer = new Three.WebGLRenderer();
       } catch (e) {
@@ -230,8 +244,5 @@ export default {
   width: 100%;
   justify-content: center;
   align-items: center;
-}
-#td_canvas {
-  border: 1px solid red;
 }
 </style>

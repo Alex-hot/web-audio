@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getRandomNumberByRange, getRandom, colorRgb } from "@/utils";
+import {  colorRgb } from "@/utils";
 export default {
   props: {
     musicBuffer: {
@@ -131,12 +131,12 @@ export default {
             false
           );
           that.ctx.lineWidth = 2; //线圈粗细
-          let color = that.colorArray[Math.floor(Math.random() * that.colorArray.length)];
+          let color =
+            that.colorArray[Math.floor(Math.random() * that.colorArray.length)];
           that.ctx.strokeStyle = (1, colorRgb(color, data / 1000)); //颜色透明度随值变化
           that.ctx.stroke(); //画空心圆
           that.ctx.closePath();
         }
-
       }
       renderFrame();
     },
@@ -151,8 +151,5 @@ export default {
   height: 100%;
   justify-content: center;
   align-items: center;
-}
-#magic_canvas {
-  border: 1px solid red;
 }
 </style>
