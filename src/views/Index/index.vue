@@ -39,7 +39,7 @@
       <div class="show-box">
         <Player v-show="typeIndex === 0" :musicBuffer="musicBuffer" />
         <Magic v-show="typeIndex === 1" :musicBuffer="musicBuffer" />
-        <ST v-if="typeIndex === 2"  :musicBuffer="musicBuffer" />
+        <ST v-if="typeIndex === 2" :musicBuffer="musicBuffer" />
       </div>
     </div>
   </div>

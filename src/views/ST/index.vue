@@ -13,7 +13,7 @@ export default {
   },
   watch: {
     musicBuffer: {
-      handler(newVal, oldVal) {
+      handler() {
         this.startPlay();
       },
       deep: true,
@@ -108,8 +108,6 @@ export default {
         requestAnimationFrame(renderFrame); //方法托管到定时器
         that.analyser.getByteFrequencyData(dataArray);
         that.moveBox(dataArray);
-        that.upDateFps();
-        // that.renderer.render(that.sence,that,camera)
       }
       renderFrame();
     },
@@ -124,7 +122,6 @@ export default {
         this.camera.rotation.y += 0.000001;
       }
     },
-    upDateFps() {},
 
     //初始化摄像机
     initCamera() {
