@@ -12,12 +12,17 @@ export default {
       type: Object,
       default: () => {},
     },
+    volume: {
+      type: Number,
+      default: 0,
+    },
   },
   watch: {
     musicBuffer: {
       handler(newVal, oldVal) {
-        console.log(oldVal);
-        console.log(newVal);
+        if (oldVal !== null) {
+          this.bufferSource.stop();
+        }
         this.startPlay();
       },
       deep: true,
@@ -25,7 +30,6 @@ export default {
   },
   data() {
     return {
-      volume: 1,
       AC: null,
       analyser: null,
       gainnode: null,
@@ -44,6 +48,7 @@ export default {
         "#FF6A6A",
         "#7091FF",
       ],
+      bufferSource: null,
     };
   },
   mounted() {
@@ -63,7 +68,7 @@ export default {
 
     // gain为gainNode，音频的声音处理模块
     this.gainnode = AC.createGain();
-    this.gainnode.gain.value = 1;
+    this.gainnode.gain.value = this.volume;
     this.initPlayer();
   },
   methods: {
@@ -85,17 +90,18 @@ export default {
       this.playMusic(this.musicBuffer.buffer);
     },
     playMusic(param) {
-      let bufferSource = this.AC.createBufferSource();
+      let that = this;
+      this.bufferSource = this.AC.createBufferSource();
       let source;
-      bufferSource.buffer = param;
+      this.bufferSource.buffer = param;
       //结束播放
-      bufferSource.onended = function () {};
+      this.bufferSource.onended = function () {};
 
       //播放音频
       setTimeout(function () {
-        bufferSource.start();
+        that.bufferSource.start();
       }, 0);
-      source = bufferSource;
+      source = this.bufferSource;
       //连接analyserNode
       source.connect(this.analyser);
       //再连接到gainNode

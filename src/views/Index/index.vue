@@ -8,7 +8,14 @@
         @change="handleChange"
         multiple="true"
       />
+
       <div class="add-music" @click="addMusic">添加歌曲</div>
+      <div class="range-box" style="display: none">
+        <span>1</span>
+        <input type="range" v-model="volume" :max="100" :min="1" />
+        <span>100</span>
+      </div>
+      <div style="display: none">音量：{{ volume }}</div>
       <div class="music-box">
         <h2 class="music-title">歌曲列表</h2>
         <ul class="music-list">
@@ -37,13 +44,22 @@
         >
       </div>
       <div ref="showBox" class="show-box">
-        <Player v-show="typeIndex === 0" :musicBuffer="musicBuffer" />
-        <Magic v-show="typeIndex === 1" :musicBuffer="musicBuffer" />
+        <Player
+          v-show="typeIndex === 0"
+          :musicBuffer="musicBuffer"
+          :volume="Number(volume)"
+        />
+        <Magic
+          v-show="typeIndex === 1"
+          :musicBuffer="musicBuffer"
+          :volume="Number(volume)"
+        />
         <ST
           v-show="typeIndex === 2"
           :clientWidth="clientWidth"
           :clientHeight="clientHeight"
           :musicBuffer="musicBuffer"
+          :volume="Number(volume)"
         />
       </div>
     </div>
@@ -68,6 +84,7 @@ export default {
       typeList: ["音频条", "声波", "BOX"],
       clientWidth: null,
       clientHeight: null,
+      volume: 1,
     };
   },
   mounted() {
@@ -168,6 +185,9 @@ export default {
       justify-content: center;
       align-items: center;
       cursor: pointer;
+    }
+    .range-box {
+      margin-top: 20px;
     }
     .music-box {
       margin-top: 20px;
