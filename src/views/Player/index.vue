@@ -137,7 +137,4 @@ export default {
   justify-content: center;
   align-items: center;
 }
-#player_canvas {
-  border: 1px solid red;
-}
 </style>

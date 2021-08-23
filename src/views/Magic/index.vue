@@ -152,7 +152,4 @@ export default {
   justify-content: center;
   align-items: center;
 }
-#magic_canvas {
-  border: 1px solid red;
-}
 </style>
